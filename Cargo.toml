@@ -1,0 +1,23 @@
+[workspace]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+decl_macros = { path = "macros" }
+decl_model = { path = "model" }
+proc-macro2 = "1.0"
+quote = "1.0"
+serde = "1.0"
+serde_json = "1.0"
+syn = "2.0"
+
+[package]
+name = "decl"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+decl_macros.workspace = true
+decl_model.workspace = true

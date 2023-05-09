@@ -1,6 +1,3 @@
-#![warn(clippy::all)]
-#![warn(clippy::pedantic)]
-
 use decl_model::{note::SECTION, Data, VERSION};
 use proc_macro2::{Ident, Literal, Span, TokenStream};
 use quote::quote;

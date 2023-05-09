@@ -12,6 +12,7 @@ infer_array_size! {
     pub const NAME: [u8; _] = *b"decl";
 }
 
+#[allow(clippy::module_name_repetitions)]
 #[repr(u32)]
 pub enum NoteType {
     Version = 1,
@@ -24,7 +25,7 @@ struct Packed<T>(T);
 #[repr(C, align(4))]
 struct Align<T>(T);
 
-#[allow(dead_code)]
+#[allow(clippy::module_name_repetitions, dead_code)]
 #[repr(C, align(4))]
 pub struct Note<T> {
     namesz: u32,
@@ -35,6 +36,7 @@ pub struct Note<T> {
 }
 
 impl<T> Note<T> {
+    #[allow(clippy::cast_possible_truncation)]
     pub const fn new(r#type: NoteType, desc: T) -> Self {
         Note {
             namesz: NAME.len() as u32,

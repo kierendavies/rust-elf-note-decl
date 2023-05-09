@@ -1,6 +1,3 @@
-#![warn(clippy::all)]
-#![warn(clippy::pedantic)]
-
 use serde::{Deserialize, Serialize};
 
 pub mod note;

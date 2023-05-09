@@ -9,7 +9,7 @@ macro_rules! infer_array_size {
 }
 
 infer_array_size! {
-    pub const NAME: [u8; _] = *b"decl";
+    pub const NOTE: [u8; _] = *b"decl\0";
 }
 
 #[allow(clippy::module_name_repetitions)]

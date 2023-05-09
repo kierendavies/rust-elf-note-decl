@@ -1,3 +1,5 @@
+use std::ffi::CString;
+
 use decl_model::{note::SECTION, Data, VERSION};
 use proc_macro2::{Ident, Literal, Span, TokenStream};
 use quote::quote;
@@ -34,17 +36,17 @@ pub fn data(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let DataArgs(data) = parse_macro_input!(input as DataArgs);
 
     let version_note = note(
-        Ident::new("DECL_VERSION", Span::call_site()),
-        quote!(::decl::model::note::NoteType::Version),
-        VERSION.as_bytes(),
+        "DECL_VERSION",
+        &quote!(::decl::model::note::NoteType::Version),
+        VERSION,
     );
 
     let data_json = serde_json::to_vec(&data).unwrap();
 
     let data_note = note(
-        Ident::new("DECL_DATA", Span::call_site()),
-        quote!(::decl::model::note::NoteType::Data),
-        &data_json,
+        "DECL_DATA",
+        &quote!(::decl::model::note::NoteType::Data),
+        data_json,
     );
 
     let tokens = quote! {
@@ -55,9 +57,13 @@ pub fn data(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     tokens.into()
 }
 
-fn note(ident: Ident, note_type: TokenStream, desc: &[u8]) -> TokenStream {
-    let desc_literal = Literal::byte_string(desc);
-    let desc_size = desc.len();
+fn note<T: Into<Vec<u8>>>(binding: &str, note_type: &TokenStream, desc: T) -> TokenStream {
+    let ident = Ident::new(binding, Span::call_site());
+
+    let desc_cstr = CString::new(desc).unwrap();
+    let desc_bytes = desc_cstr.to_bytes_with_nul();
+    let desc_literal = Literal::byte_string(desc_bytes);
+    let desc_size = desc_bytes.len();
 
     quote! {
         #[link_section = #SECTION]

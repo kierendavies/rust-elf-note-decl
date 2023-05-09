@@ -9,23 +9,24 @@ macro_rules! infer_array_size {
 }
 
 infer_array_size! {
-    pub const NOTE: [u8; _] = *b"decl\0";
+    pub const NAME: [u8; _] = *b"decl\0";
 }
 
-#[allow(clippy::module_name_repetitions)]
+#[derive(Clone, Copy, Debug)]
 #[repr(u32)]
-pub enum NoteType {
+pub enum Type {
     Version = 1,
     Data = 3,
 }
 
+// This seems redundant, but I'm not sure enough.
 #[repr(C, packed(4))]
 struct Packed<T>(T);
 
 #[repr(C, align(4))]
 struct Align<T>(T);
 
-#[allow(clippy::module_name_repetitions, dead_code)]
+#[allow(dead_code)]
 #[repr(C, align(4))]
 pub struct Note<T> {
     namesz: u32,
@@ -37,7 +38,7 @@ pub struct Note<T> {
 
 impl<T> Note<T> {
     #[allow(clippy::cast_possible_truncation)]
-    pub const fn new(r#type: NoteType, desc: T) -> Self {
+    pub const fn new(r#type: Type, desc: T) -> Self {
         Note {
             namesz: NAME.len() as u32,
             descsz: size_of::<T>() as u32,

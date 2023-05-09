@@ -5,4 +5,5 @@ A Rust experiment in embedding data into a binary. Heavily inspired by [noted](h
 ```sh
 cargo build --examples
 readelf -x .note.decl target/release/examples/example
+cargo run -- target/release/examples/example
 ```

@@ -37,7 +37,7 @@ pub fn data(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let version_note = note(
         "DECL_VERSION",
-        &quote!(::decl::model::note::NoteType::Version),
+        &quote!(::decl::model::note::Type::Version),
         VERSION,
     );
 
@@ -45,7 +45,7 @@ pub fn data(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let data_note = note(
         "DECL_DATA",
-        &quote!(::decl::model::note::NoteType::Data),
+        &quote!(::decl::model::note::Type::Data),
         data_json,
     );
 
